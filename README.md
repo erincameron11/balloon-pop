@@ -28,7 +28,7 @@ To run the application follow the steps below:
 4. Open a web browser and type in `localhost:8888/index.html`
 
 
-## To Create The Code
+## Creating The Code
 To create the code I followed the below steps using Github, NodeJS and Express:
 1. Create a new Github repository, and copy the HTTPS URL.
 2. Navigate to the location you would like the repository on your machine. Run the command in the terminal `git clone <HTTPS_URL>`
@@ -39,3 +39,5 @@ To create the code I followed the below steps using Github, NodeJS and Express:
     * `npm init --y`
     * `npm i express`
 7. Once the application is coded and you want to serve the application, follow the instructions above in `Run` section
+
+*Ref: https://www.youtube.com/watch?v=fyc-4YmgLu0*

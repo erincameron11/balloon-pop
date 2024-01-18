@@ -1,0 +1,171 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    margin: 20px;
+    background: #F0EDCF; 
+    text-align: center;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+
+
+
+
+
+/* FROM https://codepen.io/bennettfeely/pen/DrNgoO */
+/* BALLOON */
+#balloon {
+    display: inline-block;
+    position: relative;
+    width: 21px;
+    height: 30px;
+    background:#40A2D8;
+    border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+    box-shadow: inset -10px -10px 0 #00000012;
+    margin: 20px 30px;
+    animation: float 4s ease-in-out infinite;
+    /* transition: transform 0.5s ease; */
+    /* z-index: 10; */
+    /* transform-origin: bottom center; */
+}
+
+/* ANIMATION for balloon floating */
+@keyframes float {
+    0%,100% { 
+        transform: translateY(0) rotate(5deg); 
+    }
+    50% { 
+        transform: translateY(-35px) rotate(-5deg); 
+    }
+    
+    /* 0%,100% { 
+        transform: translateY(0) rotate(5deg); 
+    }
+    25%, 75% { 
+        transform: translateY(-25px) rotate(-5deg); 
+    }
+    50% {
+        transform: translateY(-50px) rotate(5deg);
+    } */
+}
+
+/* BALLOON TIE */
+#balloon:before {
+    content: "▲";
+    font-size: 20px;
+    color: #5979a6;
+    display: block;
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: -12px;
+    z-index:-100;
+}
+
+/* BALLOON STRING */
+#balloon:after {
+    content: "";
+    display: inline-block;
+    top: 100%;
+    position: absolute;
+    height: 250px;
+    width: 2px;
+    margin: 0 auto;
+    background: rgba(0,0,0,0.2); 
+}
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+/* #balloon-container {
+    margin: auto;
+    width: 50%;
+}
+
+#balloon-head {
+    background-color: red;
+    border: 1px red solid;
+    border-radius: 50%;
+    height: 40px;
+    width: 30px;
+    position: relative;
+    margin: auto;
+}
+
+#balloon-tail {
+    width: 0; 
+    height: 0; 
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid red;
+    position: absolute;
+    left: 8px;
+    top: 40px;
+} */
+
+
+
+/* MY EGG */
+/* #egg {
+    display: relative;
+    width: 14px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    transform: rotate(180deg) scale(2, 2);
+}
+#egg:before {
+    content: '';
+    position: absolute;
+    border-bottom: 7px solid black;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    top: 90px;
+    left: 28px;
+}
+#egg:after {
+    left: auto;
+    right: -10px;
+    transform: rotate(180deg);
+} */
+
+
+
+
+/* FROM https://css-tricks.com/the-shapes-of-css/ */
+/* #egg {
+    position: absolute;
+    background: red;
+    height: 200px;
+    width: 140px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    transform: rotate(180deg);
+  }
+  #egg:before {
+    content: '';
+    position: absolute;
+    border-bottom: 7px solid black;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    top: 90px;
+    left: 28px;
+    transform: rotate(180deg);
+  }
+  #egg:after {
+    left: auto;
+    right: -10px;
+    transform: rotate(140deg);
+  } */

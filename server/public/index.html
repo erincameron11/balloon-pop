@@ -10,7 +10,7 @@
         <title>Balloon Pop</title>
         <meta name="description" content="balloon pop game">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/server/public/css/main.css">
+        <link rel="stylesheet" href="./css/main.css">
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -20,10 +20,20 @@
             <h1>Balloon Pop</h1>
         </header>
         
+        <!-- BALLOON -->
         <section>
-            <p>This is where the balloon will be</p>
+            <div id="balloon-container">
+                <div id="balloon-head">
+                    <div id="balloon-tail"></div>
+                </div>
+                <div id="balloon-string"></div>
+            </div>
         </section>
 
-        <script src="/server/public/js/main.js" async defer></script>
+        <div id="egg"></div>
+
+        <div id="balloon"></div>
+
+        <script src="./js/main.js" async defer></script>
     </body>
 </html>
