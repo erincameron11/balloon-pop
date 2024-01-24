@@ -5,10 +5,10 @@
 ---
 
 ## Introduction
-The purpose of this project is to use front-end technologies to create an interactive application for blowing up balloons. 
+The purpose of this project is to use front-end technologies to create an interactive application for blowing up a balloon. 
 
 ## Application Features
-* Blow up balloons by physically blowing near your machine's microphone
+* Blow up the balloon by physically blowing near your machine's microphone
 
 ## Tools and Techniques
 Technologies used include:
@@ -25,7 +25,7 @@ To run the application follow the steps below:
 2. Navigate to the applications `server` folder on your computer
 3. Run the following command in the terminal: `node app`
     * Note: if you do not have npm or node installed, visit `www.npmjs.com` to download
-4. Open a web browser and type in `localhost:8888/index.html`
+4. Open a web browser and type in `localhost:3000/index.html`
 
 
 ## Creating The Code
