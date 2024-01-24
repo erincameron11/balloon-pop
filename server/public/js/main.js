@@ -1,170 +1,154 @@
-// Baseline sound: average = 1-3
-// Regular blowing: average = 20-30
-// Hard blowing: average = 70-100
+// Define variables
+const balloon = document.getElementById("balloon");
+const startButton = document.getElementById("start");
+const restartButton = document.getElementById("restart");
+var randomPop;
+
+// Set the balloon initial size
+balloon.setAttribute("style", "height:30px");
+balloon.setAttribute("style", "width:21px");
+
+// Hide the balloon and restart button
+balloon.style.display = 'none';
+
+function start() {
+  // Define variable for random balloon popping threshold
+  randomPop = Math.random() * 500;
+  console.log(randomPop);
+
+  // Hide the start button, show the balloon
+  startButton.hidden = true;
+  balloon.style.display = 'inline-block';
+
+  // Call blow
+  balloon.setAttribute("style", "height:30px; width:21px");
+  blow();
+  // balloon.setAttribute("style", "width:21px");
+  // console.log(balloon.style.height);
+}
 
 
-// TO MAKE POP WITH JAVASCRIPT ONLY
-// function play() {
-//     var pop = new Audio("https://github.com/erincameron11/balloon-pop/raw/main/server/public/assets/pop.mp3");
-//     pop.play();
-// }
+// FUNCTION: used to inflate the balloon
+function blow() {
+  navigator.mediaDevices.getUserMedia({
+    "audio": true
+  })
+  .then((stream) => {
+    // Define variables
+    const audioContext = new AudioContext();
+    const analyser = audioContext.createAnalyser();
+    const mic = audioContext.createMediaStreamSource(stream);
+    const processor = audioContext.createScriptProcessor(2048, 1);
+    const destination = audioContext.destination;
+    const minVolume = 70;
+
+    // Connections
+    mic.connect(analyser);
+    analyser.connect(processor);
+    processor.connect(destination);
+
+    // Add event listener to the processor
+    processor.addEventListener("audioprocess", () => {
+      const array = new Uint8Array(analyser.frequencyBinCount);
+      analyser.getByteFrequencyData(array);
+      let sum = 0;
+      for (let i = 0; i < array.length; i++) {
+        sum += array[i];
+      }
+      let avg = sum / array.length;
+
+      // If avg volume is over the min
+      if(avg > minVolume) {
+        // console.log("LOUD " + avg);
+
+        // Create a new size for balloon
+        var height = balloon.style.height;
+        var width = balloon.style.width;
+        increaseSize(height, width);
+        // increaseWidth(w);
+        // increaseWidth(h);
+      }
+    })
+  })
+  .catch((err) => {
+    console.error(err);
+  })
+}
 
 
 
+// FUNCTION: used to increase width of a div
+// and to make it into a string with "px" on the end
+function increaseSize(height, width) {
+  // Define variables
+  var newWidth = "";
+  var newHeight = "";
 
+  // ---- HEIGHT ----
+  // Loop through the height string
+  for (let i = 0; i < height.length; i++) {
+    // If i == p, stop
+    if(height[i] == 'p') {
+      // Turn the height string into a number
+      var numHeight = Number(newHeight);
 
+      // Increase the height value
+      numHeight++;
 
-// Using https://www.youtube.com/watch?v=3OnMBtOyGkY
-function SetupAudio() {
-    console.log("setup")
-    // If the mic is available, set up the device
-    if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({
-            "audio": true
-        })
-        .then(SetupStream)
-        .catch(err => {
-            console.error(err);
-        });
+      // Turn the height number back into a string
+      var strHeight = String(numHeight);
+      strHeight = "height: " + strHeight + "px";
     }
+    // Add the digit to the width
+    newHeight = newHeight + height[i];
+  }
+
+  // ---- WIDTH ----
+  // Width is just 70% of the height
+  numWidth = numHeight * 0.70;
+  // Turn the width number back into a string
+  var strWidth = String(numWidth);
+  strWidth = "width: " + strWidth + "px";
+
+  // Check to see if balloon size exceeds a certain value
+  // if(numHeight > randomPop) {
+  if(numHeight > 50) {
+    pop();
+  // If not, increase the size of the balloon
+  } else {
+    // Increase the balloon width
+    balloon.setAttribute("style", strHeight + "; " + strWidth);
+  }
 }
 
 
-SetupAudio();
+// FUNCTION: used to pop the balloon, play sound, and restart button appears
+function pop() {
+  // Hide the balloon
+  // balloon.setAttribute("style", "display: none");
+  // balloon.style.display = 'none';
+  // balloon.hidden = true;
+  balloon.setAttribute("style", "visibility: hidden");
 
+  // Show the restart button
+  restartButton.hidden = false;
 
-
-function SetupStream(stream) {
-
+  // Play pop sound
+  var pop = new Audio("./assets/pop.mp3");
+  pop.play();
 }
 
 
+// FUNCTION: used to restart the balloon game
+function restart() {
+  // Hide the restart button
+  restartButton.hidden = true;
 
-// Using p5.js for sound input https://www.youtube.com/watch?v=q2IDNkUws-A
-// var mic;
+  // Hide the balloon
+  balloon.setAttribute("hidden", "true");
+  console.log(balloon);
+  // balloon.style.display = 'none';
 
-// function setup() {
-//     createCanvas(200, 200);
-//     mic = new p5.AudioIn();
-//     mic.start();
-// }
-
-
-// function grow() {
-//     var volume = mic.getLevel();
-//     background(0);
-//     ellipse(100, 100, volume * 200, volume * 200);
-//     console.log(volume);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// // Using audio worklets
-// navigator.mediaDevices.getUserMedia({
-//     "audio": true
-// })
-// .then((stream) => {
-//     // Define variables
-//     const maxVolume = 30; // Define the maximum volume input from microphone
-//     const audioContext = new AudioContext(); // Create an audio context variable
-//     // const microphone = audioContext.createMediaStreamSource(stream); // Create a microphone audio node
-//     // const analyser = audioContext.createAnalyser(); // Create an analyser
-//     audioContext.audioWorklet.addModule("./audio-processor.js");
-//     const audioNode = new AudioWorkletNode(audioContext, "./audio-processor.js");
-//     const destination = audioContext.destination;
-//     audioNode.connect(destination); // Connect the node to the destination
-// })
-// .catch(err => {
-//     if (err.name === 'AbortError') {
-//         console.log('AbortError: Fetch request aborted');
-//       }
-// })
-
-
-// const audioInput = async () => {
-//     // Define variables
-//     const maxVolume = 30; // Define the maximum volume input from microphone
-//     const audioContext = new AudioContext(); // Create an audio context variable
-//     // const microphone = audioContext.createMediaStreamSource(stream); // Create a microphone audio node
-//     // const analyser = audioContext.createAnalyser(); // Create an analyser
-//     await audioContext.audioWorklet.addModule("audio-processor.js");
-//     const audioNode = new AudioWorkletNode(audioContext, "audio-processor.js");
-//     const destination = audioContext.destination;
-//     audioNode.connect(destination); // Connect the node to the destination
-// } 
-
-
-
-
-
-
-
-
-
-
-
-
-// // TIKTOK
-// navigator.mediaDevices.getUserMedia({
-//     // Need to access audio only, no video
-//     "audio": true
-// }) 
-// .then((stream) => {
-//     // Define variables
-//     const audioContext = new AudioContext(); // Create an audio context variable
-//     const microphone = audioContext.createMediaStreamSource(stream); // Create a microphone audio node
-//     const analyser = audioContext.createAnalyser(); // Create an analyser
-//     const scriptProcessor = audioContext.createScriptProcessor(2048, 1, 0); // TO FIX
-//     const maxVolume = 30; // Define the maximum volume input from microphone
-//     const destination = audioContext.destination;
-
-//     // Attach the microphone and the analyser
-//     microphone.connect(analyser);
-
-//     // Attach the analyser and script processor
-//     analyser.connect(scriptProcessor);
-
-//     // Attach the script processor and destination
-//     scriptProcessor.connect(destination);
-    
-
-//     // VIDEO CODE TIKTOK
-//     scriptProcessor.addEventListener("audioprocess", () => {
-//         const array = new Uint8Array(analyser.frequencyBinCount);
-//         analyser.getByteFrequencyData(array);
-//         var sum = 0;
-//         for(var i = 0; i < array.length; i++) {
-//             sum += array[i];
-//         }
-//         var average = sum / array.length;
-//         // console.log(average);
-//         if(average > maxVolume) {
-//             // play();
-//             // var restartButton = document.getElementById("restart");
-//             // var balloon = document.getElementById("balloon");
-//             // // balloon.setAttribute("hidden", true);
-//             // balloon.style.display = 'none';
-//             // restartButton.hidden = false;
-//         }
-//         // setTimeout(scriptProcessor, 10, []);
-//     })
-
-
-//     // if(microphone.mediaStream.active) {
-//     //     console.log(microphone.mediaStream.active);
-//     // }
-    
-// })
-
-// .catch((err) => {
-//     console.error(err);
-// })
+  // Show the start button
+  startButton.hidden = false;
+}
