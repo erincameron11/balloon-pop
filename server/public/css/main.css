@@ -10,7 +10,19 @@ h1 {
     margin-bottom: 100px;
 }
 
+#restart {
+    background-color: #40A2D8;
+    padding: 10px 20px;
+    color: white;
+    border: 1px #40A2D8 solid;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
+#restart:hover {
+    background:#0B60B0;
+    border: 1px #0B60B0 solid;;
+}
 
 
 
@@ -22,9 +34,11 @@ h1 {
     position: relative;
     width: 21px;
     height: 30px;
+    /* width: 130px;
+    height: 186px; */
     background:#40A2D8;
     border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-    box-shadow: inset -10px -10px 0 #00000012;
+    box-shadow: inset -11px -11px 0 #00000012;
     margin: 20px 30px;
     animation: float 4s ease-in-out infinite;
     /* transition: transform 0.5s ease; */
