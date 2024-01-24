@@ -42,7 +42,7 @@ function blow() {
         const mic = audioContext.createMediaStreamSource(stream);
         const processor = audioContext.createScriptProcessor(2048, 1);
         const destination = audioContext.destination;
-        const minVolume = 70;
+        const minVolume = 40; // the minimum amount of volume to accept as input
 
         // Connections
         mic.connect(analyser);
@@ -51,20 +51,24 @@ function blow() {
 
         // Add event listener to the processor
         processor.addEventListener("audioprocess", () => {
-            const array = new Uint8Array(analyser.frequencyBinCount);
-            analyser.getByteFrequencyData(array);
-            let sum = 0;
-            for (let i = 0; i < array.length; i++) {
-            sum += array[i];
+            // Define variables
+            let total = 0;
+            let avgLoudness;
+            const loudness = new Uint8Array(analyser.frequencyBinCount);
+            analyser.getByteFrequencyData(loudness);
+
+            // Loop through the array
+            for (let i = 0; i < loudness.length; i++) {
+                total += loudness[i];
             }
-            let avg = sum / array.length;
+
+            // Set the average loudness value
+            avgLoudness = total / loudness.length;
 
             // If avg volume is over the min
-            if(avg > minVolume) {
-            // Create a new size for balloon
-            // var height = balloon.style.height;
-            // var width = balloon.style.width;
-            increaseSize(balloon.style.height, balloon.style.width);
+            if(avgLoudness > minVolume) {
+                // Create a new size for balloon
+                increaseSize(balloon.style.height, balloon.style.width);
             }
         })
     })
@@ -109,8 +113,7 @@ function increaseSize(height, width) {
     strWidth = "width: " + strWidth + "px";
 
     // Check to see if balloon size exceeds a certain value
-    //   if(numHeight > randomPop) {
-    if(numHeight > 50) { // for testing
+    if(numHeight > randomPop) {
         pop();
     // If not, increase the size of the balloon
     } else {
